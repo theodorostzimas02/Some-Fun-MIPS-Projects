@@ -24,30 +24,30 @@ strend: .word 0
 	.text
 	.globl __start	
 __start:
-                    la $t7,strend
-                    lw $s3,0($t7)
-read_str:			li $v0, 8					# code to read a string
-					la $a0, firststring					# ??? --> label with string
-					li $a1, 80					# n chars --> $a1=n+1 eg: (20+1)--> li $a1, 21
-					syscall
+                la $t7,strend
+                lw $s3,0($t7)
+read_str:	li $v0, 8					# code to read a string
+		la $a0, firststring			
+		li $a1, 80					# n chars --> $a1=n+1 eg: (20+1)--> li $a1, 21
+		syscall
 
-print_str:			li $v0, 4
-					la $a0, firststring					# ??? --> label with string
-					syscall
-					jal print_endl
+print_str:	li $v0, 4
+		la $a0, firststring				
+		syscall
+		jal print_endl
 
-					li $v0, 8					# code to read a string
-					la $a0, secondstring					# ??? --> label with string
-					li $a1, 80					# n chars --> $a1=n+1 eg: (20+1)--> li $a1, 21
-					syscall
+		li $v0, 8					# code to read a string
+		la $a0, secondstring				
+		li $a1, 80					# n chars --> $a1=n+1 eg: (20+1)--> li $a1, 21
+		syscall
                     
-                    li $v0, 4
-					la $a0, secondstring				# ??? --> label with string
-					syscall
-                    jal print_endl
+                li $v0, 4
+		la $a0, secondstring				
+		syscall
+                jal print_endl
                     
                     
-                    li $t0, 0                   #i loop
+                li $t0, 0                   #i loop
                     
 loop1: lbu $s0, firststring($t0)
         li $t1, 0                   #j loop
@@ -57,33 +57,33 @@ loop1: lbu $s0, firststring($t0)
                 beq $s0, $s1,same
                 bne $s0, $s1, else
 
-Exit:				li 		$v0, 10
-					syscall				#au revoir...
+Exit:				li $v0, 10
+				syscall				#au revoir...
 
 
-print_endl:		la		$a0,endl 			# system call to print
-				li		$v0, 4 				# out a newline
-				syscall
-				jr $ra
+print_endl:		la $a0,endl 			# system call to print
+		 	li $v0, 4 			# out a newline
+			syscall
+			jr $ra
 
 
 
 same:     
                     li $v0, 4
-					la $a0, prompt0				# ??? --> label with string
-					syscall
-					move $a0, $s1
+		    la $a0, prompt0				
+		    syscall
+		    move $a0, $s1
                     li $v0, 11
                     syscall
                     jal print_endl
                     li $v0, 4
-					la $a0, prompt1				# ??? --> label with string
-					syscall
+		    la $a0, prompt1				
+		    syscall
                     move $a0, $t0 
                     li $v0, 1
-					syscall 
+		    syscall 
                     jal print_endl
-					move $a0, $t1 
+		    move $a0, $t1 
                     li $v0, 1
                     syscall
                     jal print_endl
